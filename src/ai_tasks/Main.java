@@ -1,22 +1,21 @@
 package ai_tasks;
 
 import java.util.Arrays;
+import ai_tasks.IntStreamTasks;
 
 public class Main {
 
     public static void main(String[] args) {
-        int[] ints = {1, 3, 76, 45, 3, 58, 4, 8};
-        System.out.println(ints.length);
 
-//        int index = ArraysUtils.linearSearch(ints, 100);
-//        System.out.println("index: " + index);
-//
-//        System.out.println("Масив до сортування: ");
-//        System.out.println(Arrays.toString(ints));
-//
-//        ArraysUtils.sortSelection(ints);
-//
-//        System.out.println("Масив після сортування: ");
-//        System.out.println(Arrays.toString(ints));
+        int[]myArray = {1,2,3,4,5};
+        IntStreamTasks firstArray = new IntStreamTasks(myArray);
+        firstArray.findAvg();
+
+        int[]myArray2 = {2,4,5};
+        IntStreamTasks secondArray = new IntStreamTasks(myArray2);
+        secondArray.findAvg();
+
+        IntStreamTasks thirdArray = new IntStreamTasks(new int[]{7,8,9}); 
+        thirdArray.findAvg();
     }
 }

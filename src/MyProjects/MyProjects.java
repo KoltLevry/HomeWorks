@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
@@ -185,6 +186,18 @@ public class MyProjects {
             }
             System.out.print(isPrime ? myArray[n] + " " : "");
         }
+    }
+
+    public static void secondMinStream(){
+        int[] arr = {9,12,3,24,15,0};
+
+        int secondMin = Arrays.stream(arr)
+                .boxed()
+                .sorted((a,b) -> a - b)
+                .skip(1)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Array must have at least 2 numbers!"));
+        System.out.println("Наступне найменше число: " + secondMin);
     }
 
     public static void main(String[] args) {
