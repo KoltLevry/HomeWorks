@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RubberArray<T> {
+class RubberArray<T> {
     private List<T> array;
 
     public RubberArray() {
@@ -69,13 +69,13 @@ public class RubberArray<T> {
 
     public static void main(String[] args) {
         // Приклад використання RubberArray
-        RubberArray<String> rubberArray = new RubberArray<>(new String[]{"A", "B", "C"});
+        RubberArray<String> rubberArray = new RubberArray<>(new String[]{"A", "B", "C", "D"});
 
-        rubberArray.addElement("D");
+        rubberArray.addElement("E");
         rubberArray.printAllElements();
 
         System.out.println("Содержит 'B': " + rubberArray.containsElement("B"));
-        System.out.println("Элементов по индексу 2: " + rubberArray.getElement(2));
+        System.out.println("Элементов по индексу 3: " + rubberArray.getElement(2));
         System.out.println("Количество элементов: " + rubberArray.getSize());
 
         System.out.println("\n===\n");
@@ -83,7 +83,7 @@ public class RubberArray<T> {
         rubberArray.printAllElements();
 
         System.out.println("\n===\n");
-        rubberArray.addElements("E", "F", "G");
+        rubberArray.addElements("F", "G", "J");
         rubberArray.printAllElements();
 
         System.out.println("\n===\n");
@@ -91,4 +91,3 @@ public class RubberArray<T> {
         rubberArray.printAllElements();
     }
 }
-

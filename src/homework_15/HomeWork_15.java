@@ -1,5 +1,8 @@
 package homework_15;
 
+public class HomeWork_15 {
+}
+
 class Animal {
     private String name;
 
