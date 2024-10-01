@@ -1,4 +1,5 @@
 ### IntelliJ IDEA ###
+.idea/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
@@ -27,3 +28,18 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Custom ###
+src/ai_tasks/
+src/cohort23/
+src/cohort_49_1/
+src/cohort_52_2/
+src/homeworks/
+src/Lesson_01/
+src/lesson_16/
+src/MyProjects/
+src/exportToHTML/HomeWork_03/
+Java Tasks/.idea/
+exportToHTML/
+Java Tasks/Java Tasks.iml/
+
