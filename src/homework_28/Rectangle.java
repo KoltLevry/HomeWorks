@@ -10,14 +10,8 @@ public class Rectangle {
     }
 
     public Rectangle(double length, double width) {
-        if (length <= 0) {
-            throw new IllegalArgumentException("Довжина повинна бути більше 0");
-        }
-        if (width <= 0) {
-            throw new IllegalArgumentException("Ширина повинна бути більше 0");
-        }
-        this.length = length;
-        this.width = width;
+        this.length = validDimension(length, "Довжина повинна бути більше 0");
+        this.width = validDimension(width,"Ширина повинна бути більше 0");
     }
 
     public double getLength() {
@@ -25,10 +19,7 @@ public class Rectangle {
     }
 
     public void setLength(double length) {
-        if (length <= 0) {
-            throw new IllegalArgumentException("Довжина повинна бути більше 0");
-        }
-        this.length = length;
+        this.length = validDimension(length, "Довжина повинна бути більше 0");
     }
 
     public double getWidth() {
@@ -36,10 +27,14 @@ public class Rectangle {
     }
 
     public void setWidth(double width) {
-        if (width <= 0) {
-            throw new IllegalArgumentException("Ширина повинна бути більше 0");
+        this.width = validDimension(width,"Ширина повинна бути більше 0");
+    }
+
+    public double validDimension(double value, String errorMassage) {
+        if (value <= 0){
+            throw new IllegalArgumentException(errorMassage);
         }
-        this.width = width;
+        return value;
     }
 
     @Override
@@ -62,7 +57,7 @@ class createRectangle {
             Rectangle rectangle3 = new Rectangle();
             System.out.println("#3: " + rectangle3);
 
-            Rectangle rectangle4 = new Rectangle(0, -4);
+            Rectangle rectangle4 = new Rectangle(2, -4);
             System.out.println("#4: " + rectangle4);
 
         } catch (IllegalArgumentException e) {
@@ -72,7 +67,7 @@ class createRectangle {
         try {
             Rectangle rectangle5 = new Rectangle(3, 4);
             rectangle5.setLength(0);
-            rectangle5.setWidth(-2);
+            rectangle5.setWidth(2);
             System.out.println("#5: " + rectangle5);
         } catch (IllegalArgumentException e) {
             System.out.println("Помилка: " + e.getMessage());

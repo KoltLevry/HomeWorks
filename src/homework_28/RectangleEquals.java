@@ -16,8 +16,7 @@ public class RectangleEquals {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         RectangleEquals rectangle = (RectangleEquals) obj;
-        return Double.compare(rectangle.length, length) == 0 &&
-                Double.compare(rectangle.width, width) == 0;
+        return rectangle.length == length && rectangle.width == width;
     }
 
     @Override

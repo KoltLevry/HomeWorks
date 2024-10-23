@@ -4,28 +4,28 @@ public class Pair<T> {
     private T first;
     private T second;
 
-    public Pair(T first, T second) {
+    public Pair(T first, T second){
         this.first = first;
         this.second = second;
     }
 
-    public T getFirst() {
+    public T getFirst(){
         return first;
     }
 
-    public T getSecond() {
+    public T getSecond(){
         return second;
     }
 
-    public void setFirst(T value) {
+    private void setFirst(T value){
         first = value;
     }
 
-    public void setSecond(T value) {
+    private void setSecond(T value){
         second = value;
     }
 
-    public void swap() {
+    public void swap(){
         T temp = first;
         first = second;
         second = temp;

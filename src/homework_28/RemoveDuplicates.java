@@ -16,8 +16,7 @@ class RectangleTest {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         RectangleTest rectangle = (RectangleTest) obj;
-        return Double.compare(rectangle.length, length) == 0 &&
-                Double.compare(rectangle.width, width) == 0;
+        return rectangle.length == length && rectangle.width == width;
     }
 
     @Override
@@ -30,17 +29,18 @@ class RectangleTest {
         return String.format("Прямоугольник [длина = %.2f, ширина = %.2f]", length, width);
     }
 
-    public static void removeDuplicates(List<RectangleTest> rectangles) {
-        Set<RectangleTest> seen = new HashSet<>();
-        Iterator<RectangleTest> iterator = rectangles.iterator();
+    public static void removeDuplicates(List<RectangleTest> rectangles, RectangleTest rectangleToRemove) {
+//        Iterator<RectangleTest> iterator = rectangles.iterator();
+//        while (iterator.hasNext()) {
+//            RectangleTest current = iterator.next();
+//            if (current.equals(rectangleToRemove)) {
+//                iterator.remove();
+//            }
+//        }
 
-        while(iterator.hasNext()) {
-            RectangleTest current = iterator.next();
-            if (!seen.add(current)) {
-                iterator.remove();
-            }
-        }
+        rectangles.removeIf(rectangle -> rectangle.equals(rectangleToRemove));
     }
+
 }
 
 class displayInfoRemoveRect{
@@ -57,7 +57,8 @@ class displayInfoRemoveRect{
             System.out.println(rectangle);
         }
 
-        RectangleTest.removeDuplicates(rectangles);
+        RectangleTest rectangleToRemove = new RectangleTest(5.0, 3.0);
+        RectangleTest.removeDuplicates(rectangles, rectangleToRemove);
 
         System.out.println("\nСписок после удаления дубликатов:");
         for (RectangleTest rectangle : rectangles) {
