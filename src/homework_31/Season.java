@@ -14,7 +14,9 @@ public enum Season {
     }
 
     public String getSeasonInfo(){
-        return String.format("Season: %s. Average temperature: %.1f°C", this.name().toLowerCase(), this.getAvgDegree());
+        return String.format("Season: %s. Average temperature: %.1f°C",
+                this.name().charAt(0) + this.name().substring(1).toLowerCase(),
+                this.getAvgDegree());
     }
 }
 
