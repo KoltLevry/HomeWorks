@@ -3,46 +3,34 @@ package homework_25;
 import java.util.Arrays;
 
 public interface MyList<T> {
-
     void add(T value);
-
     void addAll(T... values);
-
     int size();
-
     int indexOf(T value);
-
     int lastIndexOf(T value);
-
     boolean contains(T value);
-
-    T[] toArray();
-
+    Object[] toArray();
     boolean remove(T value);
-
     T remove(int index);
-
     boolean isEmpty();
-
     T get(int index);
-
-    void set (int index, T value);
+    void set(int index, T value);
 }
 
 class MyArrayList<T> implements MyList<T> {
-
-    private Object[] array;
+    private T[] array;  // Заміна Object[] на T[]
     private int size;
 
+    @SuppressWarnings("unchecked") // Додавання анотації для ігнорування попереджень про приведення типу
     public MyArrayList() {
-        array = new Object[10];  // Початкова місткість масиву
+        array = (T[]) new Object[10];  // Ініціалізація масиву типу T
         size = 0;
     }
 
     @Override
     public void add(T value) {
         ensureCapacity();
-        array[size++] = value;
+        array[size++] = value;  // Додавання елемента
     }
 
     @Override
@@ -83,8 +71,8 @@ class MyArrayList<T> implements MyList<T> {
     }
 
     @Override
-    public T[] toArray() {
-        return (T[]) Arrays.copyOf(array, size);
+    public Object[] toArray() {
+        return Arrays.copyOf(array, size);   // Повернення масиву типу T
     }
 
     @Override
@@ -102,12 +90,12 @@ class MyArrayList<T> implements MyList<T> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index out of bounds: " + index);
         }
-        T oldValue = (T) array[index];
+        T oldValue = array[index];
         for (int i = index; i < size - 1; i++) {
-            array[i] = array[i + 1];
+            array[i] = array[i + 1];  // Зсув елементів вліво
         }
         size--;
-        return oldValue;
+        return oldValue;  // Повернення видаленого значення
     }
 
     @Override
@@ -120,7 +108,7 @@ class MyArrayList<T> implements MyList<T> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index out of bounds: " + index);
         }
-        return (T) array[index];
+        return array[index];
     }
 
     @Override
@@ -128,12 +116,12 @@ class MyArrayList<T> implements MyList<T> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index out of bounds: " + index);
         }
-        array[index] = value;
+        array[index] = value;  // Заміна значення
     }
 
     private void ensureCapacity() {
         if (size == array.length) {
-            array = Arrays.copyOf(array, array.length * 2);
+            array = Arrays.copyOf(array, array.length * 2);  // Подвоєння розміру масиву
         }
     }
 }
@@ -150,12 +138,12 @@ class Main {
         System.out.println("List size: " + list.size());  // Виведе: 6
         System.out.println("Index of 30: " + list.indexOf(30));  // Виведе: 2
 
-        list.remove(1);  // Видалить елемент за індексом 1 (20)
+        list.remove(1);  // Видалити елемент за індексом 1 (20)
         System.out.println("New size after removing: " + list.size());  // Виведе: 5
 
         System.out.println("Contains 50: " + list.contains(50));  // Виведе: true
 
-        for (Integer num : list.toArray()) {
+        for (Object num : list.toArray()) {
             System.out.println(num);  // Виведе всі елементи списку
         }
     }

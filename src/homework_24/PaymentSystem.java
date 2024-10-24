@@ -9,165 +9,123 @@ public interface PaymentSystem {
     void transferMoney(PaymentSystem targetAccount, double amount);
 }
 
-class BankAccount implements PaymentSystem{
+abstract class BaseAccount implements PaymentSystem{
+    protected boolean accessAllowed;
+    protected double depositAmount;
+    private final String username;
+    private final String password;
+    private final String correctUsername;
+    private final String correctPassword;
+
+    public BaseAccount(String username, String password, String correctUsername, String correctPassword) {
+        this.username = username;
+        this.password = password;
+        this.correctUsername = correctUsername;
+        this.correctPassword = correctPassword;
+    }
+
+    public void accessAllowed(){
+        if (Objects.equals(password, correctPassword) && Objects.equals(username, correctUsername)){
+            accessAllowed = true;
+            System.out.println("Доступ дозволено! Вітаю, " + username);
+        } else {
+            System.out.println("Доступ відхилено! Неправильні дані.");
+        }
+    }
+    @Override
+    public void withdrawMoney(double amount){
+        if (accessAllowed){
+            if (amount <= 0) {
+                System.out.println("Неможливо проводити операції з від'ємними сумами!");
+            } else if (depositAmount >= amount) {
+                depositAmount -= amount;
+                System.out.println("Знята сума: " + amount + " $");
+            } else{
+                System.out.println("Недостатньо коштів на рахунку.");
+            }
+        } else {
+            System.out.println("Спочатку потрібно авторизуватися.");
+        }
+    }
+
+    @Override
+    public void depositTransfer(double amount){
+        if (accessAllowed){
+            if (amount > 0){
+                depositAmount += amount;
+                System.out.println("Покладено на рахунок суму: " + amount + " €");
+            } else{
+                System.out.println("Неможливо проводити операції з від'ємними сумами!");
+            }
+        } else {
+            System.out.println("Спочатку потрібно авторизуватися.");
+        }
+    }
+
+    @Override
+    public void checkBalance(){
+        if (accessAllowed) {
+            System.out.println("Залишок на рахунку: " + depositAmount + " €");
+        } else {
+            System.out.println("Спочатку потрібно авторизуватися.");
+        }
+    }
+
+    @Override
+    public void transferMoney(PaymentSystem targetAccount, double amount) {
+        if (accessAllowed && depositAmount >= amount) {
+            withdrawMoney(amount);
+            targetAccount.depositTransfer(amount);
+            System.out.println("Переведено " + amount + " € на інший рахунок.");
+        } else if (!accessAllowed) {
+            System.out.println("Спочатку потрібно авторизуватися.");
+        } else {
+            System.out.println("Недостатньо коштів для переказу.");
+        }
+    }
+}
+
+class BankAccount extends BaseAccount{
     private static final String PASSWORD = "123qwerty";
     private static final String USERNAME = "Anna";
-    private boolean accessAllowed;
-    private final String name;
-    private final String password;
-    private double depositAmount = 0;
 
     public BankAccount(String name, String password) {
-        this.name = name;
-        this.password = password;
-    }
-
-    public void accessAllowed(){
-        if (Objects.equals(password, PASSWORD) && Objects.equals(name, USERNAME)){
-            accessAllowed = true;
-            System.out.println("Доступ до банку дозволено! Вітаю " + name);
-        } else{
-            System.out.println("Доступ відхилено! Неправильні дані");
-        }
-    }
-
-    @Override
-    public void withdrawMoney(double amount){
-        if (accessAllowed){
-            if (amount > 0 && depositAmount > amount){
-                depositAmount -= amount;
-                System.out.println("Знята з рахунку сума: " + amount + " евро");
-            } else if(amount < 0 ){
-                System.out.println("Неможливо проводити операції з від'ємними сумами!");
-            } else{
-                System.out.println("Спроба вивести суму: " + amount + " евро. Недостатньо коштів на рахунку");
-            }
-        }
-    }
-    @Override
-    public void depositTransfer(double amount){
-        if (accessAllowed){
-            if (amount > 0){
-                depositAmount += amount;
-                System.out.println("Покладено на рахунок суму: " + amount + " евро");
-            } else{
-                System.out.println("Неможливо проводити операції з від'ємними сумами!");
-            }
-        }
-    }
-    @Override
-    public void checkBalance(){
-        if (accessAllowed) {
-            System.out.println("Залишок на рахунку: " + depositAmount + " євро");
-        } else {
-            System.out.println("Відмовлено! Спочатку потрібно авторизуватися.");
-        }
-    }
-    @Override
-    public void transferMoney(PaymentSystem targetAccount, double amount) {
-        if (accessAllowed && depositAmount >= amount) {
-            withdrawMoney(amount);
-            targetAccount.depositTransfer(amount);
-            System.out.println("Переведено " + amount + " євро на інший рахунок.");
-        } else if (!accessAllowed) {
-            System.out.println("Спочатку потрібно авторизуватися.");
-        } else {
-            System.out.println("Недостатньо коштів для переказу.");
-        }
+        super(name, password, USERNAME, PASSWORD);
     }
 }
 
-class ElectronicWallet implements PaymentSystem{
+class ElectronicWallet extends BaseAccount{
     private static final String PASSWORD = "123qwerty123";
     private static final String USERNAME = "Anna";
-    private boolean accessAllowed;
-    private final String name;
-    private final String password;
-    private double depositAmount = 0;
 
     public ElectronicWallet(String name, String password) {
-        this.name = name;
-        this.password = password;
-    }
-
-    public void accessAllowed(){
-        if (Objects.equals(password, PASSWORD) && Objects.equals(name, USERNAME)){
-            accessAllowed = true;
-            System.out.println("Доступ до електронного гаманця дозволено! Вітаю " + name);
-        } else{
-            System.out.println("Доступ відхилено! Неправильні дані");
-        }
-    }
-
-    @Override
-    public void withdrawMoney(double amount){
-        if (accessAllowed){
-            if (amount > 0 && depositAmount > amount){
-                depositAmount -= amount;
-                System.out.println("Знята з рахунку сума: " + amount + " $");
-            } else if(amount < 0 ){
-                System.out.println("Неможливо проводити операції з від'ємними сумами!");
-            } else{
-                System.out.println("Спроба вивести суму: " + amount + " $. Недостатньо коштів на рахунку");
-            }
-        }
-    }
-    @Override
-    public void depositTransfer(double amount){
-        if (accessAllowed){
-            if (amount > 0){
-                depositAmount += amount;
-                System.out.println("Покладено на рахунок суму: " + amount + " $");
-            } else{
-                System.out.println("Неможливо проводити операції з від'ємними сумами!");
-            }
-        }
-    }
-    @Override
-    public void checkBalance(){
-        if (accessAllowed) {
-            System.out.println("Залишок на рахунку: " + depositAmount + " $");
-        } else {
-            System.out.println("Відмовлено! Спочатку потрібно авторизуватися.");
-        }
-    }
-    @Override
-    public void transferMoney(PaymentSystem targetAccount, double amount) {
-        if (accessAllowed && depositAmount >= amount) {
-            withdrawMoney(amount);
-            targetAccount.depositTransfer(amount);
-            System.out.println("Переведено " + amount + " $ на інший рахунок.");
-        } else if (!accessAllowed) {
-            System.out.println("Спочатку потрібно авторизуватися.");
-        } else {
-            System.out.println("Недостатньо коштів для переказу.");
-        }
+        super(name, password, USERNAME, PASSWORD);
     }
 }
 
-//class Main{
-//    public static void main(String[] args) {
-//        BankAccount bankAccount = new BankAccount("Anna", "123qwerty");
-//        ElectronicWallet eWallet = new ElectronicWallet("Anna", "123qwerty123");
-//
-//        // Авторизація
-//        bankAccount.accessAllowed();
-//        eWallet.accessAllowed();
-//
-//        // Перевірка балансу
-//        bankAccount.checkBalance();
-//        eWallet.checkBalance();
-//
-//        // Операції з рахунками
-//        bankAccount.depositTransfer(200);
-//        eWallet.depositTransfer(100);
-//
-//        // Переведення грошей з банківського рахунку на електронний гаманець
-//        bankAccount.transferMoney(eWallet, 50);
-//
-//        // Перевірка балансів після переказу
-//        bankAccount.checkBalance();
-//        eWallet.checkBalance();
-//    }
-//}
+class dispMainInfoMoneyTransfer{
+    public static void main(String[] args) {
+        BankAccount bankAccount = new BankAccount("Anna", "123qwerty");
+        ElectronicWallet eWallet = new ElectronicWallet("Anna", "123qwerty123");
+
+        // Авторизація
+        bankAccount.accessAllowed();
+        eWallet.accessAllowed();
+
+        // Перевірка балансу
+        bankAccount.checkBalance();
+        eWallet.checkBalance();
+
+        // Операції з рахунками
+        bankAccount.depositTransfer(200);
+        eWallet.depositTransfer(100);
+
+        // Переведення грошей з банківського рахунку на електронний гаманець
+        bankAccount.transferMoney(eWallet, 50);
+
+        // Перевірка балансів після переказу
+        bankAccount.checkBalance();
+        eWallet.checkBalance();
+    }
+}
 
