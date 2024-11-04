@@ -1,7 +1,5 @@
 package homework_38.task_1;
 
-import lesson_38.SportsmanScoreComparator;
-
 import java.util.Arrays;
 import java.util.Comparator;
 
