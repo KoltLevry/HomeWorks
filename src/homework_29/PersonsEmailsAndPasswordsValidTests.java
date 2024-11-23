@@ -1,45 +1,28 @@
 package homework_29;
 
 import org.junit.jupiter.api.Test;
-import java.util.regex.Pattern;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PersonsEmailsAndPasswordsValidTests {
-
-    private static final String regexEmail = "^[a-zA-Z][\\w.-]*@[\\w-]+\\.[a-zA-Z]{2,}$";
-    private static final String regexPassword = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!%$@&*().,-]+)[A-Za-z\\d!%$@&*().,-]{8,}$";
-
-    private boolean isValid(String input, String regex) {
-        return Pattern.matches(regex, input);
-    }
-
     @Test
-    public void validatePersons() {
-        Person[] persons = {
-                new Person("john.doe@example.com", "Password123!"),  // +
-                new Person("a@example.co", "123gyhA."),              // +
-                new Person("_user@domain.com", "123ygAS"),           // -
-                new Person("user_123@dom.com", "123DFGassed!"),      // +
-                new Person("user@com", "A1b@xyz!,"),                 // -
-                new Person("user@domain", "7sa,A23k"),               // -
-        };
-
-        for (Person person : persons) {
-            testValidity(person.getEmail(), regexEmail, "Email");
-            testValidity(person.getPassword(), regexPassword, "Password");
-            System.out.println();
-        }
+    public void testValidEmail(){
+        Person person = new Person("john.doe@example.com", "Password123!");
+        assertEquals("john.doe@example.com", person.getEmail());
     }
-
-    private void testValidity(String input, String regex, String type) {
-        if (isValid(input, regex)) {
-            System.out.println(type + " є валідним: " + input);
-        } else {
-            System.out.println(type + " не валідний: " + input);
-        }
+    @Test
+    public void testInvalidEmail(){
+        Person person = new Person("invalid_email@", "Password123!");
+        assertNotEquals("<EMAIL>", person.getEmail());
     }
-
-    public static void main(String[] args) {
-        PersonsEmailsAndPasswordsValidTests tests = new PersonsEmailsAndPasswordsValidTests();
-        tests.validatePersons();
+    @Test
+    public void testValidPassword(){
+        Person person = new Person("john.doe@example.com", "Password123!");
+        assertEquals("Password123!", person.getPassword());
+    }
+    @Test
+    public void testInvalidPassword(){
+        Person person = new Person("john.doe@example.com", "short");
+        assertNotEquals("short", person.getPassword());
     }
 }

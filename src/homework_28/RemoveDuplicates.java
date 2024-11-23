@@ -1,6 +1,7 @@
 package homework_28;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 class RectangleTest {
     private double length;
@@ -30,15 +31,12 @@ class RectangleTest {
     }
 
     public static void removeDuplicates(List<RectangleTest> rectangles, RectangleTest rectangleToRemove) {
-//        Iterator<RectangleTest> iterator = rectangles.iterator();
-//        while (iterator.hasNext()) {
-//            RectangleTest current = iterator.next();
-//            if (current.equals(rectangleToRemove)) {
-//                iterator.remove();
-//            }
-//        }
-
-        rectangles.removeIf(rectangle -> rectangle.equals(rectangleToRemove));
+        for (int i = 0; i < rectangles.size(); i++){
+            if (rectangles.get(i).equals(rectangleToRemove)){
+                rectangles.remove(i);
+                i--;
+            }
+        }
     }
 
 }
@@ -53,17 +51,13 @@ class displayInfoRemoveRect{
         rectangles.add(new RectangleTest(5.0, 3.0)); // Дубликат
 
         System.out.println("Список до удаления дубликатов:");
-        for (RectangleTest rectangle : rectangles) {
-            System.out.println(rectangle);
-        }
+        rectangles.forEach(System.out::println);
 
         RectangleTest rectangleToRemove = new RectangleTest(5.0, 3.0);
         RectangleTest.removeDuplicates(rectangles, rectangleToRemove);
 
         System.out.println("\nСписок после удаления дубликатов:");
-        for (RectangleTest rectangle : rectangles) {
-            System.out.println(rectangle);
-        }
+        rectangles.forEach(System.out::println);
     }
 }
 
